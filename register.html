@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Registration</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="form-page">
+
+<div class="form-card">
+
+    <div class="logo">
+        CAMPUS<span>VOTE</span>
+    </div>
+
+    <h1>Student Registration</h1>
+
+    <p>Register before participating in the election.</p>
+
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        <input type="text"
+               name="name"
+               placeholder="Full Name"
+               required>
+
+        <input type="text"
+               name="roll_no"
+               placeholder="Roll Number"
+               required>
+
+        <input type="email"
+               name="email"
+               placeholder="Email Address"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Create Password"
+               required>
+
+        <button type="submit">
+            REGISTER
+        </button>
+
+    </form>
+
+    <p>
+        Already registered?
+        <a href="/student_login">Student Login</a>
+    </p>
+
+    <a href="/">← Back to Home</a>
+
+</div>
+
+</body>
+
+</html>
+

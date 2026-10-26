@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="form-page admin-bg">
+
+<div class="form-card">
+
+    <div class="logo">
+        CAMPUS<span>VOTE</span>
+    </div>
+
+    <h1>Admin Portal</h1>
+
+    <p>Election administrator access.</p>
+
+    {% if message %}
+
+        <div class="error">
+            {{ message }}
+        </div>
+
+    {% endif %}
+
+    <form method="POST">
+
+        <input type="text"
+               name="username"
+               placeholder="Admin Username"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Admin Password"
+               required>
+
+        <button type="submit">
+            ADMIN LOGIN
+        </button>
+
+    </form>
+
+    <p class="admin-hint">
+        Default: admin / admin123
+    </p>
+
+    <a href="/">← Back to Home</a>
+
+</div>
+
+</body>
+
+</html>
+
