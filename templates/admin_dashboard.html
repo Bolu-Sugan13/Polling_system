@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="dashboard">
+
+<nav>
+
+    <div class="logo">
+        CAMPUS<span>VOTE</span>
+    </div>
+
+    <div>
+
+        <span class="admin-label">
+            ADMIN PANEL
+        </span>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <small>ELECTION CONTROL CENTER</small>
+
+            <h1>
+                CR Election Dashboard
+            </h1>
+
+        </div>
+
+
+        {% if poll["status"] == "open" %}
+
+            <div class="status open">
+                ● POLLING LIVE
+            </div>
+
+        {% else %}
+
+            <div class="status closed">
+                ● POLLING CLOSED
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="control-card">
+
+        <h2>Polling Control</h2>
+
+        <p>
+            Start the election when students are ready to vote.
+            Close it when voting is finished.
+        </p>
+
+        {% if poll["status"] == "closed" %}
+
+            <a href="/start_poll"
+               class="start-btn">
+                START POLLING
+            </a>
+
+        {% else %}
+
+            <a href="/close_poll"
+               class="stop-btn">
+                CLOSE POLLING
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <small>REGISTERED STUDENTS</small>
+
+            <strong>
+                {{ students|length }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <small>CANDIDATES</small>
+
+            <strong>
+                {{ candidates|length }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <small>TOTAL VOTES</small>
+
+            <strong>
+                {{ candidates | sum(attribute="votes") }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-grid">
+
+        <div class="control-card">
+
+            <h2>Add Candidate</h2>
+
+            <form method="POST"
+                  action="/add_candidate">
+
+                <input type="text"
+                       name="name"
+                       placeholder="Candidate Name"
+                       required>
+
+                <input type="text"
+                       name="department"
+                       placeholder="Department"
+                       required>
+
+                <input type="text"
+                       name="slogan"
+                       placeholder="Election Slogan"
+                       required>
+
+                <button type="submit">
+                    ADD CANDIDATE
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="control-card">
+
+            <h2>Candidate List</h2>
+
+            {% for candidate in candidates %}
+
+            <div class="admin-candidate">
+
+                <div>
+
+                    <strong>
+                        {{ candidate["name"] }}
+                    </strong>
+
+                    <small>
+                        {{ candidate["department"] }}
+                    </small>
+
+                </div>
+
+                <div>
+
+                    <span class="vote-count">
+                        {{ candidate["votes"] }} votes
+                    </span>
+
+                    <a href="/delete_candidate/{{ candidate['id'] }}"
+                       class="delete">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <div class="control-card">
+
+        <h2>Registered Students</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Email</th>
+                <th>Vote Status</th>
+
+            </tr>
+
+            {% for student in students %}
+
+            <tr>
+
+                <td>
+                    {{ student["name"] }}
+                </td>
+
+                <td>
+                    {{ student["roll_no"] }}
+                </td>
+
+                <td>
+                    {{ student["email"] }}
+                </td>
+
+                <td>
+
+                    {% if student["has_voted"] == 1 %}
+
+                        <span class="voted">
+                            VOTED
+                        </span>
+
+                    {% else %}
+
+                        <span class="not-voted">
+                            NOT VOTED
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+
